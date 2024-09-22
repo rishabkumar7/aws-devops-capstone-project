@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qr-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: qr-frontend
+  template:
+    metadata:
+      labels:
+        app: qr-frontend
+    spec:
+      containers:
+      - name: qr-frontend
+        image: rishabkumar7/devops-qr-code-frontend:latest
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qr-frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: qr-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
